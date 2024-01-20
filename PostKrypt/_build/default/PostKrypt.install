@@ -1,0 +1,5 @@
+lib: [
+  "_build/install/default/lib/PostKrypt/META"
+  "_build/install/default/lib/PostKrypt/dune-package"
+  "_build/install/default/lib/PostKrypt/opam"
+]

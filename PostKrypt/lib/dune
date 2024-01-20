@@ -1,0 +1,19 @@
+(library
+ (name picture)
+ (modules picture)
+ (libraries))
+
+(library
+ (name transform)
+ (modules transform)
+ (libraries picture))
+
+(library
+ (name stack)
+ (modules stack)
+ (libraries picture transform))
+
+(library
+ (name inputpic)
+ (modules inputpic)
+ (libraries picture stack))
