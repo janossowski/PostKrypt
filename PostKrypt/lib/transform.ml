@@ -1,5 +1,3 @@
-(* transform.ml *)
-
 open Picture
 
 type transform =

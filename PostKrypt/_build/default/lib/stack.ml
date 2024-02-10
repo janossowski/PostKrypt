@@ -59,9 +59,8 @@ let closepath () =
   let start = get_starting_point () in
   if current <> start then
     let current_pic = get_current_picture () in
-    set_current_picture (current_pic +++ Picture.line current start)
-  else
-    ()
+    set_current_picture (current_pic +++ Picture.line current start);
+  ()
 
 let add stack =
   match pop stack with

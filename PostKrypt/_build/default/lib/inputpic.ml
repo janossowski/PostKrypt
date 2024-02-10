@@ -28,21 +28,21 @@ let input_token input_channel =
 let readPic input_channel =
   let rec process_tokens stack tokens =
     match tokens with
-    | [] -> Stack.get_current_picture stack
+    | [] -> Stack.get_current_picture
     | token :: rest ->
       let new_stack = match token with
-        | Int n -> Stack.push (float_of_int n) stack
+        | Int n -> Stack.push (float_of_int n) stack;
         | Op op ->
           (match op with
-          | "moveto" -> Stack.moveto stack; stack
-          | "lineto" -> Stack.lineto stack; stack
-          | "closepath" -> Stack.closepath stack; stack
-          | "add" -> Stack.add stack; stack
-          | "sub" -> Stack.sub stack; stack
-          | "mul" -> Stack.mul stack; stack
-          | "div" -> Stack.div stack; stack
-          | "translate" -> Stack.translate stack; stack
-          | "rotate" -> Stack.rotate stack; stack
+          | "moveto" -> Stack.moveto stack
+          | "lineto" -> Stack.lineto stack
+          | "closepath" -> Stack.closepath (); stack
+          | "add" -> Stack.add stack
+          | "sub" -> Stack.sub stack
+          | "mul" -> Stack.mul stack
+          | "div" -> Stack.div stack
+          | "translate" -> Stack.translate stack
+          | "rotate" -> Stack.rotate stack
           | _ -> failwith "Invalid operation");
       in
       process_tokens new_stack rest

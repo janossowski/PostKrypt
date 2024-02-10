@@ -3,7 +3,7 @@
 # Shared cache: disabled
 # Workspace root: "C:\\Users\\jasio\\OCaml\\PostKrypt\\PostKrypt"
 # Auto-detected concurrency: 4
-$ C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -config > C:\Users\jasio\AppData\Local\Temp\dune_6ec7b2_output
+$ C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -config > C:\Users\jasio\AppData\Local\Temp\dune_d01f5a_output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -142,17 +142,40 @@ $ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\o
 > Error: Unbound value Picture.string_of_point
 > Hint: Did you mean string_of_pic?
 [2]
-$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.inputpic.objs/byte -I lib/.picture.objs/byte -I lib/.stack.objs/byte -I lib/.transform.objs/byte -intf-suffix .ml -no-alias-deps -opaque -o lib/.inputpic.objs/byte/inputpic.cmo -c -impl lib/inputpic.ml)
-> File "lib/inputpic.ml", line 34, characters 47-52:
-> 34 |         | Int n -> Stack.push (float_of_int n) stack
->                                                     ^^^^^
-> Error: This expression has type unit but an expression was expected of type
->          t = float list
-[2]
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.stack.objs/byte -I lib/.picture.objs/byte -I lib/.transform.objs/byte -intf-suffix .ml -no-alias-deps -opaque -o lib/.stack.objs/byte/stack.cmo -c -impl lib/stack.ml)
 $ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlopt.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.inputpic.objs/byte -I lib/.inputpic.objs/native -I lib/.picture.objs/byte -I lib/.picture.objs/native -I lib/.stack.objs/byte -I lib/.stack.objs/native -I lib/.transform.objs/byte -I lib/.transform.objs/native -intf-suffix .ml -no-alias-deps -opaque -o lib/.inputpic.objs/native/inputpic.cmx -c -impl lib/inputpic.ml)
-> File "lib/inputpic.ml", line 34, characters 47-52:
-> 34 |         | Int n -> Stack.push (float_of_int n) stack
->                                                     ^^^^^
-> Error: This expression has type unit but an expression was expected of type
->          t = float list
+> File "lib/inputpic.ml", line 1:
+> Error: The implementation lib/inputpic.ml
+>        does not match the interface lib/.inputpic.objs/byte\inputpic.cmi: 
+>        Values do not match:
+>          val readPic : in_channel -> unit -> Picture.picture
+>        is not included in
+>          val readPic : in_channel -> Picture.picture
+>        The type in_channel -> unit -> Picture.picture
+>        is not compatible with the type in_channel -> Picture.picture
+>        Type unit -> Picture.picture is not compatible with type
+>          Picture.picture = Picture.pic list 
+>        Hint: Did you forget to provide `()' as argument?
+>        File "lib/inputpic.mli", line 1, characters 0-43: Expected declaration
+>        File "lib/inputpic.ml", line 28, characters 4-11: Actual declaration
 [2]
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/stack.cma lib/.stack.objs/byte/stack.cmo)
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlc.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I lib/.inputpic.objs/byte -I lib/.picture.objs/byte -I lib/.stack.objs/byte -I lib/.transform.objs/byte -intf-suffix .ml -no-alias-deps -opaque -o lib/.inputpic.objs/byte/inputpic.cmo -c -impl lib/inputpic.ml)
+> File "lib/inputpic.ml", line 1:
+> Error: The implementation lib/inputpic.ml
+>        does not match the interface lib/.inputpic.objs/byte\inputpic.cmi: 
+>        Values do not match:
+>          val readPic : in_channel -> unit -> Picture.picture
+>        is not included in
+>          val readPic : in_channel -> Picture.picture
+>        The type in_channel -> unit -> Picture.picture
+>        is not compatible with the type in_channel -> Picture.picture
+>        Type unit -> Picture.picture is not compatible with type
+>          Picture.picture = Picture.pic list 
+>        Hint: Did you forget to provide `()' as argument?
+>        File "lib/inputpic.mli", line 1, characters 0-43: Expected declaration
+>        File "lib/inputpic.ml", line 28, characters 4-11: Actual declaration
+[2]
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlopt.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I lib/.stack.objs/byte -I lib/.stack.objs/native -I lib/.picture.objs/byte -I lib/.picture.objs/native -I lib/.transform.objs/byte -I lib/.transform.objs/native -intf-suffix .ml -no-alias-deps -opaque -o lib/.stack.objs/native/stack.cmx -c -impl lib/stack.ml)
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlopt.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o lib/stack.cmxa lib/.stack.objs/native/stack.cmx)
+$ (cd _build/default && C:\Users\jasio\AppData\Local\Programs\DISKUV~1\usr\bin\ocamlopt.opt.exe -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I lib -o lib/stack.cmxs lib/stack.cmxa)
