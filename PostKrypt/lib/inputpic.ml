@@ -1,58 +1,70 @@
-(* inputpic.ml *)
-
-open Picture
 open Stack
-open Scanf
 
-(* Token type for integers and operation names *)
-type token =
-  | Int of int
-  | Op of string
-
-(* Read a token from the input channel *)
-let input_token input_channel =
+let readPic channel =
+  let current_transform = ref Transform.id in
+  let current_picture = ref [] in
+  let current_stack = ref Stack.empty in
+  let path_in_progress = ref false in
+  let start_point = ref (0., 0.) in
+  let current_point = ref (0., 0.) in
+  
+  let process_tokens tokens =
+    List.iter (fun token ->
+      match token with
+      | "moveto" ->
+        let (transformed_point, new_stack) = Stack.moveto !current_stack !current_transform in
+        path_in_progress := true;
+        current_point := transformed_point;
+        current_stack := new_stack
+      | "lineto" ->
+        if !path_in_progress = false
+          then failwith "Path is empty!"
+        else
+          let (transformed_point, new_stack, updated_picture) =
+            Stack.lineto !current_stack !current_point !current_transform !current_picture in
+          current_point := transformed_point;
+          current_stack := new_stack;
+          current_picture := updated_picture
+      | "closepath" ->
+        current_picture := Stack.closepath !current_point !start_point !current_picture;
+        path_in_progress := false
+      | "translate" ->
+        let (updated_transform, new_stack) = Stack.translate !current_stack !current_transform in
+        current_transform := updated_transform;
+        current_stack := new_stack
+      | "rotate" ->
+        let (updated_transform, new_stack) = Stack.rotate !current_stack !current_transform in
+        current_transform := updated_transform;
+        current_stack := new_stack
+      | "add" ->
+        let (new_stack) = Stack.add !current_stack in
+        current_stack := new_stack
+      | "sub" ->
+        let (new_stack) = Stack.sub !current_stack in
+        current_stack := new_stack
+      | "mul" ->
+        let (new_stack) = Stack.mul !current_stack in
+        current_stack := new_stack
+      | "div" ->
+        let (new_stack) = Stack.div !current_stack in
+        current_stack := new_stack
+      | num ->
+        try
+          current_stack := Stack.push (float_of_string num) !current_stack
+        with
+        | Failure _ -> failwith "Bad token!"  (* Ignore invalid tokens *)
+    ) tokens
+  in
+  
   try
-    let line = input_line input_channel in
-    sscanf line "%s" (fun token_str ->
+    let rec read_lines () =
       try
-        Int (int_of_string token_str)
-      with
-      | Failure _ -> Op token_str
-    )
-  with
-  | End_of_file -> Op "EOF"
-
-(* Read a series of integers and operation names from the input channel,
-   perform the relevant operations using a new stack, and return
-   the resulting picture. *)
-let readPic input_channel =
-  let rec process_tokens stack tokens =
-    match tokens with
-    | [] -> Stack.get_current_picture
-    | token :: rest ->
-      let new_stack = match token with
-        | Int n -> Stack.push (float_of_int n) stack;
-        | Op op ->
-          (match op with
-          | "moveto" -> Stack.moveto stack
-          | "lineto" -> Stack.lineto stack
-          | "closepath" -> Stack.closepath (); stack
-          | "add" -> Stack.add stack
-          | "sub" -> Stack.sub stack
-          | "mul" -> Stack.mul stack
-          | "div" -> Stack.div stack
-          | "translate" -> Stack.translate stack
-          | "rotate" -> Stack.rotate stack
-          | _ -> failwith "Invalid operation");
-      in
-      process_tokens new_stack rest
-  in
-  let tokens = ref [] in
-  let rec tokenize_input () =
-    match input_token input_channel with
-    | Op "EOF" -> process_tokens Stack.empty !tokens
-    | token ->
-      tokens := token :: !tokens;
-      tokenize_input ()
-  in
-  tokenize_input ()
+        let line = input_line channel in
+        let tokens = String.split_on_char ' ' line in
+        process_tokens tokens;
+        read_lines ()
+      with End_of_file -> ()
+    in
+    read_lines ();
+    !current_picture
+  with End_of_file -> !current_picture

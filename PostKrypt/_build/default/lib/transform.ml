@@ -1,5 +1,3 @@
-(* transform.ml *)
-
 open Picture
 
 type transform =
@@ -34,8 +32,8 @@ let rec trpoint : transform -> point -> point =
     | Translate v -> point +| v
     | Rotate angle ->
         let (x, y) = point in
-        let cos_a = cos angle in
-        let sin_a = sin angle in
+        let cos_a = cos (angle *. 2.0 *. Float.pi) in
+        let sin_a = sin (angle *. 2.0 *. Float.pi) in
         ((cos_a *. x) -. (sin_a *. y), (sin_a *. x) +. (cos_a *. y))
 
 let rec trvec : transform -> vec -> vec =

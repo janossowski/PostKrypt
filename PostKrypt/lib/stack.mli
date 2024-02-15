@@ -1,53 +1,52 @@
-type t = float list
+(** This module provides operations for manipulating a stack of floats
+    and performing transformations on pictures. *)
 
-val empty : t
-
-val is_empty : t -> bool
-
-val push : float -> t -> t
-
-val pop : t -> float * t
-
-val current_point : Picture.point ref
-
-val current_transform : Transform.transform ref
-
-val starting_point : Picture.point ref
-
-val current_picture : Picture.picture ref
-
-val get_current_point : unit -> Picture.point
-
-val set_current_point : Picture.point -> unit
-
-val get_current_transform : unit -> Transform.transform
-
-val set_current_transform : Transform.transform -> unit
-
-val get_starting_point : unit -> Picture.point
-
-val set_starting_point : Picture.point -> unit
-
-val get_current_picture : unit -> Picture.picture
-
-val set_current_picture : Picture.picture -> unit
-
-val moveto : t -> t
-
-val lineto : t -> t
-
-val closepath : unit -> unit
-
-val add : t -> t
-
-val sub : t -> t
-
-val mul : t -> t
-
-val div : t -> t
-
-val translate : t -> t
-
-val rotate : t -> t
-
-val add_line_to_picture : unit -> unit
+    module Stack : sig
+        (** The signature of the Stack module *)
+      
+        type t = float list
+        (** The type of the stack *)
+      
+        val empty : t
+        (** An empty stack *)
+      
+        val is_empty : t -> bool
+        (** Check if the stack is empty *)
+      
+        val push : float -> t -> t
+        (** Push a float onto the stack *)
+      
+        val pop : t -> float * t
+        (** Pop a float from the stack, raising an exception if the stack is empty *)
+      
+        val moveto : t -> Transform.transform -> Picture.point * t
+        (** Perform a move-to operation on the stack, updating the current point *)
+      
+        val lineto : t -> Picture.point -> Transform.transform -> Picture.picture ->
+                     Picture.point * t * Picture.picture
+        (** Perform a line-to operation on the stack, updating the current point and picture *)
+      
+        val closepath : Picture.point -> Picture.point -> Picture.picture -> Picture.picture
+        (** Perform a close-path operation on the stack, updating the current picture *)
+      
+        val add : t -> t
+        (** Perform an addition operation on the top two elements of the stack *)
+      
+        val sub : t -> t
+        (** Perform a subtraction operation on the top two elements of the stack *)
+      
+        val mul : t -> t
+        (** Perform a multiplication operation on the top two elements of the stack *)
+      
+        val div : t -> t
+        (** Perform a division operation on the top two elements of the stack *)
+      
+        val translate : t -> Transform.transform -> Transform.transform * t
+        (** Perform a translation operation on the stack, updating the current transform *)
+      
+        val rotate : t -> Transform.transform -> Transform.transform * t
+        (** Perform a rotation operation on the stack, updating the current transform *)
+      
+        val add_line_to_picture : Picture.picture -> Picture.point -> Picture.point -> Picture.picture
+        (** Add a line to the current picture, connecting two points *)
+      end

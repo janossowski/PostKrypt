@@ -40,10 +40,19 @@ let baloon : picture =
 type intLine = (int * int) * (int * int)
 type intRendering = intLine list
 
+let round x =
+  let floor_x = floor x in
+  let ceil_x = ceil x in
+  if x -. floor_x < ceil_x -. x then
+    int_of_float floor_x
+  else
+    int_of_float ceil_x
+
+
 let renderScaled : int -> picture -> intRendering =
   fun scale pic ->
     let scale_line (Line ((x1, y1), (x2, y2))) =
-      ((int_of_float (x1 *. float_of_int scale +. 0.5), int_of_float (y1 *. float_of_int scale +. 0.5)),
-       (int_of_float (x2 *. float_of_int scale +. 0.5), int_of_float (y2 *. float_of_int scale +. 0.5)))
+      ((round (x1 *. float_of_int scale), round (y1 *. float_of_int scale)),
+       (round (x2 *. float_of_int scale), round (y2 *. float_of_int scale)))
     in
     List.map scale_line pic
